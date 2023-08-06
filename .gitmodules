@@ -1,0 +1,3 @@
+[submodule "heatsheet"]
+	path = heatsheet
+	url = https://github.com/orangecoding/heatsheet
