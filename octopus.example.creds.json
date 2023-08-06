@@ -1,0 +1,12 @@
+{
+    "api_key" : "abcdefg12345",
+    "origin" : "https://api.octopus.energy",
+    "electricity" : {
+      "mpan" : 1234567890,
+      "serial_number" : "123abc456"
+    },
+    "gas" : {
+      "mprn" : "1234567890",
+      "serial_number" : "abc123456"
+    }
+  }

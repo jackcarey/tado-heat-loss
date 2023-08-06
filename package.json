@@ -1,0 +1,22 @@
+{
+  "name": "tado-heat-loss",
+  "version": "1.0.0",
+  "description": "Determine residential heatloss using tado thermostats, weather, gas consumption",
+  "main": "json2csv.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackcarey/tado-heat-loss.git"
+  },
+  "author": "",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/jackcarey/tado-heat-loss/issues"
+  },
+  "homepage": "https://github.com/jackcarey/tado-heat-loss#readme",
+  "dependencies": {
+    "@json2csv/plainjs": "^7.0.1"
+  }
+}
