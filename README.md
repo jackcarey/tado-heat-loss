@@ -26,25 +26,24 @@ High-level details have been given below with a view to explaining how data was 
 ## Steps Taken
 
 ```mermaid
-flowchart LR
+flowchart TB
 subgraph X["Data Collection"]
-direction LR
     subgraph Y["Historical"]
-    direction LR
+    direction TB
       A(Download Bulk\nWeather Data) --> B(Download All\nGas Consumption)
       B --> C(Download All\nThermostat Data)
     end
+    C --> I
+    I(Heat Loss\nAnalysis) --> D(Start Hourly\nWeather Records)
 
     subgraph Z["Periodic"]
-    direction LR
-      C --> D(Start Hourly\nWeather Records)
+    direction TB
       D --> E[[Use Dwelling]]
       E --> F(Download New\nGas Consumption)
       F --> G(Download New\nThermostat Data)
       G --> H(Stop Weather\nRecording)
-      H --> I[[Heat Loss\nAnalysis]]
-      I --> D
     end
+    H -->|repeat\n throughout season| I
 end
 ```
 
