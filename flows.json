@@ -1,0 +1,217 @@
+[
+    {
+        "id": "d258970bfcff5a43",
+        "type": "tab",
+        "label": "Filtered Weather Data",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e31538094a77db2d",
+        "type": "openweathermap",
+        "z": "d258970bfcff5a43",
+        "name": "Current Weather",
+        "wtype": "current",
+        "lon": "0",
+        "lat": "0",
+        "city": "",
+        "country": "",
+        "language": "en",
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [
+                "2dec73800cf3dcc5"
+            ]
+        ]
+    },
+    {
+        "id": "2dec73800cf3dcc5",
+        "type": "function",
+        "z": "d258970bfcff5a43",
+        "name": "filter data",
+        "func": "const keep = [\"weather\",\"detail\",\"tempc\",\"temp_maxc\",\"temp_minc\"]\nObject.keys(msg.payload).forEach(x=>{\n    if(!keep.includes(x)){\n        delete msg.payload[x];\n    }\n});\nmsg.payload.latlong = [53.2723, -2.2854];\nmsg.payload.timestamp = msg.timestamp ?? Date.now()/1000;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 120,
+        "wires": [
+            [
+                "9554eabea1d09567"
+            ]
+        ]
+    },
+    {
+        "id": "9554eabea1d09567",
+        "type": "csv",
+        "z": "d258970bfcff5a43",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "weather,detail,tempc,temp_maxc,temp_minc,timestamp",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 730,
+        "y": 120,
+        "wires": [
+            [
+                "323fe4555dc6a79a"
+            ]
+        ]
+    },
+    {
+        "id": "323fe4555dc6a79a",
+        "type": "file",
+        "z": "d258970bfcff5a43",
+        "name": "",
+        "filename": "openweather.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 910,
+        "y": 120,
+        "wires": [
+            [
+                "88cf8ae3bda11d9a"
+            ]
+        ]
+    },
+    {
+        "id": "88cf8ae3bda11d9a",
+        "type": "debug",
+        "z": "d258970bfcff5a43",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c7e341a0.381cc",
+        "type": "http in",
+        "z": "d258970bfcff5a43",
+        "name": "",
+        "url": "/openweather",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "2fb1c354.d04e3c"
+            ]
+        ]
+    },
+    {
+        "id": "2fb1c354.d04e3c",
+        "type": "file in",
+        "z": "d258970bfcff5a43",
+        "name": "",
+        "filename": "openweather.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "c9e28681.361d78"
+            ]
+        ]
+    },
+    {
+        "id": "c9e28681.361d78",
+        "type": "change",
+        "z": "d258970bfcff5a43",
+        "name": "Set Headers",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "headers.content-type",
+                "pt": "msg",
+                "to": "text/csv",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 200,
+        "wires": [
+            [
+                "88974243.7768c"
+            ]
+        ]
+    },
+    {
+        "id": "88974243.7768c",
+        "type": "http response",
+        "z": "d258970bfcff5a43",
+        "name": "",
+        "x": 730,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9701ab949e1a3ab1",
+        "type": "crontinject",
+        "z": "d258970bfcff5a43",
+        "name": "On each hour",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "crontiMethod": "onCrontime",
+        "crontiArgs": "[\"0 * * * *\"]",
+        "inputs": 0,
+        "hasButton": true,
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "e31538094a77db2d"
+            ]
+        ]
+    }
+]
