@@ -25,6 +25,29 @@ High-level details have been given below with a view to explaining how data was 
 
 ## Steps Taken
 
+```mermaid
+flowchart LR
+subgraph X["Data Collection"]
+direction LR
+    subgraph Y["Historical"]
+    direction LR
+      A(Download Bulk\nWeather Data) --> B(Download All\nGas Consumption)
+      B --> C(Download All\nThermostat Data)
+    end
+
+    subgraph Z["Periodic"]
+    direction LR
+      C --> D(Start Hourly\nWeather Records)
+      D --> E[[Use Dwelling]]
+      E --> F(Download New\nGas Consumption)
+      F --> G(Download New\nThermostat Data)
+      G --> H(Stop Weather\nRecording)
+      H --> I(Heat Loss\nAnalysis)
+      I --> D
+    end
+end
+```
+
 1. Weather: Download hourly weather for your location from OpenWeatherMap. Since the amount of data doesn't affect the cost of bulk data, you may as well select an earlier start date than you think you need in case it becomes useful later.
     - NodeRED can be configured to collect weather data using the free API to collect this data in realtime. Follow the [instructions](https://nodered.org/#get-started) to get started, then [import `flows.json`](https://nodered.org/docs/user-guide/editor/workspace/import-export). Inside the flow, you will need to enter your [OpenWeather API key](https://home.openweathermap.org/api_keys) and current location into the 'Current Weather' node. With default settings, you can navigate to `localhost:1880/openweather` to download the most recent CSV data, though it will contain only a description of the weather, a timestamp, and the temperatures measured in degrees celcius.
 2. Indoor Temperatures: 
