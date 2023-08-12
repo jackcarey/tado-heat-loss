@@ -1,3 +1,6 @@
 [submodule "heatsheet"]
 	path = heatsheet
 	url = https://github.com/orangecoding/heatsheet
+[submodule "node-red"]
+	path = node-red
+	url = https://github.com/node-red/node-red
