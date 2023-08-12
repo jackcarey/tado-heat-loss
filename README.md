@@ -42,7 +42,7 @@ direction LR
       E --> F(Download New\nGas Consumption)
       F --> G(Download New\nThermostat Data)
       G --> H(Stop Weather\nRecording)
-      H --> I(Heat Loss\nAnalysis)
+      H --> I[[Heat Loss\nAnalysis]]
       I --> D
     end
 end
